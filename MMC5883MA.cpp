@@ -1,3 +1,4 @@
+#include <cmath>
 #include "MMC5883MA.hpp"
 
 MMC5883MA::MMC5883MA():i2c(I2C_SDA,I2C_SCL){
@@ -12,6 +13,7 @@ void MMC5883MA::getMag(MAGFIELD* magField){
     magField->x = this->out2Mag(out[0],out[1]);
     magField->y = this->out2Mag(out[2],out[3]);
     magField->z = this->out2Mag(out[4],out[5]);
+    this->xyz2dif(magField);
 }
 
 void MMC5883MA::putReg(char addr,char data){
@@ -27,3 +29,10 @@ void MMC5883MA::getReg(char addr,char* data,int size){
 }
 
 inline float MMC5883MA::out2Mag(char LSB,char MSB){return (float)(MSB << 8 | LSB) * MMC5883MA_DYNAMIC_RANGE / MMC5883MA_RESOLUTION - (float)MMC5883MA_DYNAMIC_RANGE / 2;}
+
+void MMC5883MA::xyz2dif(MAGFIELD* magField){
+	magField->d = atan2(magField->y,magField->x);
+	magField->i = atan(sqrt(pow(magField->x,2) + pow(magField->y,2)) / magField->z);
+	magField->f = sqrt(pow(magField->x,2) + pow(magField->y,2) + pow(magField->z,2));
+}
+

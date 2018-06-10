@@ -9,8 +9,9 @@ int main(){
     while(count--){
         sensorMag.getMag(&dataMag);
         puts("\nMagnatic Field Strength");
-        printf("x = %f\ty = %f\tz = %f\r\n",dataMag.x,dataMag.y,dataMag.z);
+        printf("x = %f\ty = %f\tz = %f\td = %f\ti = %f\tf = %f\r\n",dataMag.x,dataMag.y,dataMag.z,dataMag.d,dataMag.i,dataMag.f);
         wait(1);
     }
     return 0;
 }
+

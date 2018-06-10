@@ -30,6 +30,7 @@
 class MAGFIELD{
     public:
         float x,y,z;
+        float d,i,f;
 };
 
 class MMC5883MA{
@@ -42,7 +43,9 @@ class MMC5883MA{
         void putReg(char addr,char data);
         void getReg(char addr,char* data,int size);
         inline float out2Mag(char LSB,char MSB);
+        void xyz2dif(MAGFIELD* magField);
         char dataWrite[2];
 };
 
 #endif
+
